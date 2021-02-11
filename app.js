@@ -5,15 +5,24 @@ const p2Display = document.querySelector('#p2Display');
 
 // keeps track of player One's score //
 let p1Score = 0;
+// keeps track of player two's score //
+let p2Score = 0;
 // keeps track of how high the score goes
 let winningScore = 5;
 
 
-// Add EventListener to the buttons 
+// Add EventListener to the button for player 1 //
 p1Button.addEventListener('click', () => {
    if (p1Score !== winningScore){
       p1Score += 1;
       p1Display.textContent = p1Score;
    }
-   
+})
+
+// Add EventListener to the button for player 2 //
+p2Button.addEventListener('click', () => {
+   if (p2Score !== winningScore){
+      p2Score += 1;
+      p2Display.textContent = p2Score;
+   }
 })
