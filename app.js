@@ -1,51 +1,46 @@
-const p1Button = document.querySelector('#p1Button');
-const p2Button = document.querySelector('#p2Button');
+const p1 = {
+   score: 0,
+   button: document.querySelector('#p1Button'),
+   display: document.querySelector('#p1Display')
+}
+
+const p2 = {
+   score: 0,
+   button: document.querySelector('#p2Button'),
+   display: document.querySelector('#p2Display')
+}
+
+// this function works for either player one or two /
+function updateScores(player, opponent){
+   if(!isGameOver){ // if the game is still being played //
+      player.score += 1;
+      if(player.score === winningScore){
+         isGameOver = true;
+         player.display.classList.add('has-text-success');
+         opponent.display.classList.add('has-text-danger');
+         player.button.disabled = true;
+         opponent.button.disabled = true;
+      }
+      player.display.textContent = player.score;
+   }
+}
+
 const resetButton = document.querySelector('#reset');
-const p1Display = document.querySelector('#p1Display');
-const p2Display = document.querySelector('#p2Display');
 const winningScoreSelect = document.querySelector('#playto');
 
-// keeps track of player One's score //
-let p1Score = 0;
-// keeps track of player two's score //
-let p2Score = 0;
 // keeps track of how high the score goes
 let winningScore = 0;
 let isGameOver = false;
 
 
 // Add EventListener to the button for player 1 //
-p1Button.addEventListener('click', () => {
-   if(!isGameOver){ // if the game is still being played //
-      // add 1 to player 1's score //
-      p1Score += 1;
-      // checking score for the win //
-      if(p1Score === winningScore){
-         isGameOver = true;
-         p1Display.classList.add('has-text-success');
-         p2Display.classList.add('has-text-danger');
-         p1Button.disabled = true;
-         p2Button.disabled = true;
-      }
-      p1Display.textContent = p1Score;
-   }
-})
+p1.button.addEventListener('click', () => {
+   updateScores(p1, p2);
+})      
 
 // Add EventListener to the button for player 2 //
-p2Button.addEventListener('click', () => {
-   if(!isGameOver){ // if the game is still being played //
-      // add 1 to player 2's score //
-      p2Score += 1;
-      // checking score for the win //
-      if(p2Score === winningScore){
-         isGameOver = true;
-         p2Display.classList.add('has-text-success');
-         p1Display.classList.add('has-text-danger');
-         p1Button.disabled = true;
-         p2Button.disabled = true;
-      }
-      p2Display.textContent = p2Score;
-   }
+p2.button.addEventListener('click', () => {
+   updateScores(p2, p1);
 })
 
 // add event listener to winningScoreSelect to listen for a change event //
@@ -59,12 +54,10 @@ resetButton.addEventListener('click', reset);
 
 function reset () {
    isGameOver = false;
-   p1Score = 0;
-   p2Score = 0;
-   p1Display.textContent = 0;
-   p2Display.textContent = 0;
-   p1Display.classList.remove('has-text-success', 'has-text-danger');
-   p2Display.classList.remove('has-text-success', 'has-text-danger');
-   p1Button.disabled = false;
-   p2Button.disabled = false;
+   for (let p of[p1,p2]){
+      p.score = 0;
+      p.display.textContent = 0;
+      p.display.classList.remove('has-text-success', 'has-text-danger');
+      p.button.disabled = false;
+   }
 }
